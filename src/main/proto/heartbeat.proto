@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package br.com.grpc;
+
+option java_multiple_files = true;
+option java_package = "br.com.grpc";
+option java_outer_classname = "HeartbeatProto";
+
+// Serviço de Heartbeat para comunicação entre líder e processos
+service HeartbeatService {
+  // Método para enviar ping e receber pong
+  rpc Ping(PingRequest) returns (PongResponse);
+}
+
+// Mensagem de requisição de ping
+message PingRequest {
+  string sender_process = 1;     // Nome do processo que envia o ping
+  int64 timestamp = 2;           // Timestamp do envio
+  int32 sequence_number = 3;     // Número de sequência para controle
+}
+
+// Mensagem de resposta pong
+message PongResponse {
+  string responder_process = 1;  // Nome do processo que responde
+  int64 timestamp = 2;           // Timestamp da resposta
+  int32 sequence_number = 3;     // Número de sequência correspondente
+  bool success = 4;              // Indica se a resposta foi bem-sucedida
+}
